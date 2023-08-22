@@ -1,0 +1,24 @@
+<div class="vh-100 vw-100 d-flex justify-content-center align-items-center  ">
+
+    <div class="col-xl-5 col-lg-12 ">
+
+        <h1 class="text-center mt-5">Admin login</h1>
+        <div class="div-1">
+            <form action="/admin" method="post">
+                <p class="fs-5">Email</p>
+                <input type="email" class="input-1" name="email" id="">
+                <p class="fs-5 ">password</p>
+                <input type="password" class="input-1" name="password" id="">
+
+                {{#if err}}
+                <p class="text-danger">{{err}}</p>
+                {{else}}
+                <br>
+                {{/if}}
+
+                <input type="submit" class="btn btn-primary mt-3" value="login">
+            </form>
+        </div>
+    </div>
+
+ 

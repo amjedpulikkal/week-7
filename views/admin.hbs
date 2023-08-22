@@ -1,0 +1,192 @@
+<div class="w-100 d-flex justify-content-end align-items-center">
+    <a href="#iadd1q2w3e" data-bs-toggle="modal" class="btn btn-primary me-4 mt-4">add</a>
+    <a href="/admin/logout" class="btn btn-primary me-4 mt-4">logout</a>
+</div>
+
+<div class="modal fade" id="iadd1q2w3e" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form name="form-add" id="form-add-1">
+                <div class="modal-body">
+                    <p class="fs-5">Name</p>
+                    <input type="text" class="input-1" name="name" id="name">
+                    <p class="fs-5 ">Email</p>
+                    <input type="email" class="input-1" name="email" id="email">
+                    <p class="fs-5 ">password</p>
+                    <input type="password" class="input-1" name="pasword" id="pasword">
+                    <p id="err-add"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="update">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{#each user}}
+<div class="modal fade" id="id{{_id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/admin/update/{{_id}}?_method=PATCH" method="post">
+                <div class="modal-body">
+                    <p class="fs-5">Name</p>
+                    <input type="text" class="input-1" name="name" id="" value="{{name}}">
+                    <p class="fs-5 ">Email</p>
+                    <input type="email" class="input-1" name="email" id="" value="{{email}}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{/each}}
+{{#if alert}}
+<div class="d-flex justify-content-center align-items-center mt-3">
+    <div class="alert alert-success w-50 d-flex d-flex justify-content-around" role="alert">
+        <p>A simple success alert—check it out!</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{/if}}
+
+</div>
+<h1 class="text-center mt-2">Admin</h1>
+<div class="container">
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th scope="col">_id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each user}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td>{{name}}</td>
+                <td>{{email}}</td>
+                <td style="width: 150px;">
+                    <a href="#id{{_id}}" data-bs-toggle="modal" class="btn btn-primary">Edit</a>
+                    <a href="/admin/block/{{_id}}" class="btn btn-primary">block</a>
+                    {{!-- <a href="/delete/{{email}}" class="btn btn-danger">Delete</a> --}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<h1 class="text-center mt-2">Block</h1>
+<div class="container">
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th scope="col">_id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">hash</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each nouser}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td>{{name}}</td>
+                <td>{{email}}</td>
+                <td>{{pasword}}</td>
+                <td style="width: 150px;">
+                    <a href="/admin/unblock/{{_id}}" class="btn btn-primary">unblok</a>
+                    {{!-- <a href="/delete/{{email}}" class="btn btn-danger">Delete</a> --}}
+                    <form method="post" action="/admin/delete/{{_id}}?_method=DELETE">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+
+    document.getElementById('form-add-1').addEventListener('submit', (event) => {
+        event.preventDefault()
+        console.log("goot it")
+
+        let email = document.forms["form-add"]["email"].value;
+        let name = document.forms["form-add"]["name"].value;
+        let pasword = document.forms["form-add"]["pasword"].value;
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        if (name === "") {
+            alert("Name is empty");
+            return;
+        }
+        if (email === "") {
+            alert("Email is empty");
+            return;
+        } else {
+            if (!emailPattern.test(email)) {
+                alert("Invalid email format");
+                return;
+            }
+        }
+        if (pasword === "") {
+            alert("Password is empty");
+            return;
+        }
+
+        const requestData = {
+            name: name,
+            email: email,
+            pasword: pasword
+        };
+        console.log(requestData)
+
+
+        const url = 'http://localhost:3000/admin/add';
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(requestData),
+        };
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+
+                    location.reload()
+
+                } else {
+
+                    document.getElementById("err-add").innerText = data.error
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
+
+            });
+    })
+
+</script>

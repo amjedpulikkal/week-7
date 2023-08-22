@@ -1,0 +1,49 @@
+
+
+    <div class="vh-100 vw-100 row">
+        <div class="col-7 bg-image">
+        </div>
+        <div class="col-xl-5 col-lg-12 d-flex justify-content-center align-items-center bg-image-login">
+            <div class="div-1" >
+
+                <form action="/login" method="post"  onsubmit="return validate()"name="form-2">
+                    <p class="fs-5">Email</p>
+                   
+                    <input type="email"  class="input-1"  name="email" id=" email">
+                    <p class="fs-5 ">password</p>
+                    <input type="password" class="input-1" name="pasword" id="pasword">
+                    {{#if err }}
+                     <p class="text-danger">{{err}}</p>
+                    {{else}}
+                    <br>
+                    {{/if}}
+                    <input type="submit" class="btn btn-primary mt-3" value="login">
+                </form>
+                <p><I></I> don't have account<a href="/signup"> Sign up</a></p>
+            </div>
+
+        </div>
+         <script>function validate() {
+
+            let email = document.forms["form-1"]["email"].value;
+            let pasword = document.forms["form-1"]["pasword"].value;
+            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+            if (email === "") {
+                alert("email is null")
+                return false
+
+            } else {
+
+                if (!emailPattern.test(email)) {
+                    alert("Invalid email format");
+                    return false;
+                }
+            }
+            if (pasword === "") {
+                alert("pasword is null")
+                return false
+            }
+
+        }</script>
+
